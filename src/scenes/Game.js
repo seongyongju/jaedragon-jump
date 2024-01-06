@@ -1,15 +1,15 @@
-import Phaser from 'phaser'
+import Phaser from 'phaser';
 
-export default class Game extends Phaser.Scene{
-    constructor(){
-        super({
-            key: 'Game'
-        })
-    }
-    
-    preload() {}
+export default class Game extends Phaser.Scene {
+  constructor() {
+    super({
+      key: 'Game',
+    });
+  }
 
-    create() {}
+  preload() {}
 
-    update() {}
+  create() {}
+
+  update() {}
 }
