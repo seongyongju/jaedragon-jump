@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import WebFontFile from '../files/WebFontFile';
 import Buds from '../game/buds';
+import Note7 from '../game/Note7';
 
 export default class Game extends Phaser.Scene {
   재용;
@@ -8,7 +9,7 @@ export default class Game extends Phaser.Scene {
   platforms;
   cursors;
   platform_max_y;
-  platform_keys = ['laundry', 'note7', 'refri', 's1', 's2', 's21', 's22'];
+  platform_keys = ['laundry', 'refri', 's1', 's2', 's21', 's22'];
   score = 0;
   scoreText;
   constructor() {
@@ -24,17 +25,18 @@ export default class Game extends Phaser.Scene {
     this.load.image('buds', 'assets/buds.png');
     //platforms
     this.load.image('laundry', 'assets/laundry.png');
-    this.load.image('note7', 'assets/note7.png');
     this.load.image('refri', 'assets/refri.png');
     this.load.image('s1', 'assets/s1.png');
     this.load.image('s2', 'assets/s2.png');
     this.load.image('s21', 'assets/s21.png');
     this.load.image('s22', 'assets/s22.png');
+    this.load.image('note7', 'assets/note7.png');
     this.load.addFile(new WebFontFile(this.load, 'Jua'));
     this.cursors = this.input.keyboard.createCursorKeys();
   }
 
   create() {
+    this.score = 0;
     const width = this.scale.width;
     const height = this.scale.height;
     this.background = this.add
@@ -94,10 +96,23 @@ export default class Game extends Phaser.Scene {
       undefined,
       this,
     );
-    this.budsGroup.get(100, 200, 'buds');
+
+    this.note7Group = this.physics.add.staticGroup({
+      classType: Note7,
+    });
+    this.physics.add.overlap(
+      this.재용,
+      this.note7Group,
+      this.handCollectNote7,
+      undefined,
+      this,
+    );
   }
 
   update(t, dt) {
+    if (this.재용.body.velocity.y > 2000) {
+      this.scene.start('GameOver', { score: this.score });
+    }
     this.platforms.children.iterate((child) => {
       const platform = child;
 
@@ -122,6 +137,13 @@ export default class Game extends Phaser.Scene {
             Phaser.Math.Between(0, this.scale.width - 200),
             new_y - Phaser.Math.Between(600, 1000),
             'buds',
+          );
+        }
+        if (Math.random() < 0.1 && this.재용.body.velocity.y > -1225) {
+          this.note7Group.get(
+            Phaser.Math.Between(0, this.scale.width - 200),
+            new_y - Phaser.Math.Between(600, 1000),
+            'note7',
           );
         }
       }
@@ -176,5 +198,10 @@ export default class Game extends Phaser.Scene {
     this.time.delayedCall(1000, () => {
       player.body.setAllowGravity(true);
     });
+  }
+
+  handCollectNote7(player, note7) {
+    note7.destroy();
+    this.scene.start('GameOver', { score: this.score });
   }
 }
