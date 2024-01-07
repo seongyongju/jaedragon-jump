@@ -25,14 +25,14 @@ export default class GameOver extends Phaser.Scene {
         `Delisted KRW: ${this.score}`,
         {
           fontFamily: 'Jua',
-          fontSize: '32px',
+          fontSize: '50px',
           fill: '#000',
         },
       )
       .setOrigin(0.5);
 
     const restartButton = this.add
-      .text(this.scale.width / 2, this.scale.height / 2 + 50, '다시하기', {
+      .text(this.scale.width / 2, this.scale.height / 2 + 10, '다시하기', {
         fontFamily: 'Jua',
         fontSize: '32px',
         fill: '#000',
