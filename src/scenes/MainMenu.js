@@ -18,15 +18,15 @@ export default class MainMenu extends Phaser.Scene {
       .tileSprite(0, 0, width, height, 'background')
       .setOrigin(0);
     this.add
-      .text(this.scale.width / 2, this.scale.height / 2 - 100, '재용점프', {
+      .text(this.scale.width / 2, this.scale.height / 2 - 100, 'SAMSUNG JUMP', {
         fontFamily: 'Jua',
-        fontSize: '36px',
+        fontSize: '60px',
         fill: '#000',
       })
       .setOrigin(0.5);
 
     const restartButton = this.add
-      .text(this.scale.width / 2, this.scale.height / 2 + 50, '시작하기', {
+      .text(this.scale.width / 2, this.scale.height / 2 + 10, 'START', {
         fontFamily: 'Jua',
         fontSize: '32px',
         fill: '#000',
