@@ -107,6 +107,20 @@ export default class Game extends Phaser.Scene {
       undefined,
       this,
     );
+    this.halfWidth = this.sys.game.config.width / 2;
+    this.input.on('pointerdown', (_pointer) => {
+      this.pointer = _pointer;
+      if (this.pointer.x < this.halfWidth) {
+        this.재용.setFlipX(true);
+      } else {
+        this.재용.setFlipX(false);
+      }
+    });
+    // 포인터가 화면에서 떨어질 때의 이벤트를 처리합니다.
+    this.input.on('pointerup', () => {
+      this.pointer = null;
+      this.재용.setVelocityX(0);
+    });
   }
 
   update(t, dt) {
@@ -157,9 +171,19 @@ export default class Game extends Phaser.Scene {
     } else if (this.cursors.right.isDown && !touchingDown) {
       this.재용.setVelocityX(700);
       this.재용.setFlipX(false);
+    } else if (this.pointer && this.pointer.isDown) {
+      // 포인터가 화면에 닿아 있는 경우, 포인터 입력을 처리합니다.
+      if (this.pointer.x < this.halfWidth) {
+        this.재용.setVelocityX(-700);
+        this.재용.setFlipX(true);
+      } else {
+        this.재용.setVelocityX(700);
+        this.재용.setFlipX(false);
+      }
     } else {
       this.재용.setVelocityX(0);
     }
+
     this.horizontalWrap(this.재용);
   }
   horizontalWrap(sprite) {
