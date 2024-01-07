@@ -19,6 +19,10 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
+    const elem = document.getElementById('asset-base-url');
+    if (elem) {
+      this.load.setBaseURL(elem.dataset.assetBaseUrl);
+    }
     this.load.image('character', 'assets/character.png');
     this.load.image('background', 'assets/Clouds.png');
     this.load.image('rocket', 'assets/rocket.png');

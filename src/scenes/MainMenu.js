@@ -7,6 +7,10 @@ export default class MainMenu extends Phaser.Scene {
   }
 
   preload() {
+    const elem = document.getElementById('asset-base-url');
+    if (elem) {
+      this.load.setBaseURL(elem.dataset.assetBaseUrl);
+    }
     this.load.addFile(new WebFontFile(this.load, 'Jua'));
     this.load.image('background', 'assets/Clouds.png');
   }
@@ -18,7 +22,7 @@ export default class MainMenu extends Phaser.Scene {
       .tileSprite(0, 0, width, height, 'background')
       .setOrigin(0);
     this.add
-      .text(this.scale.width / 2, this.scale.height / 2 - 100, 'SAMSUNG JUMP', {
+      .text(this.scale.width / 2, this.scale.height / 2 - 100, 'JAEYONG JUMP', {
         fontFamily: 'Jua',
         fontSize: '60px',
         fill: '#000',

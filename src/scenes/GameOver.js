@@ -10,6 +10,10 @@ export default class GameOver extends Phaser.Scene {
     this.score = data.score || 0;
   }
   preload() {
+    const elem = document.getElementById('asset-base-url');
+    if (elem) {
+      this.load.setBaseURL(elem.dataset.assetBaseUrl);
+    }
     this.load.image('background', 'assets/Clouds.png');
   }
   create() {
