@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import WebFontFile from '../files/WebFontFile';
+import Buds from '../game/buds';
 
 export default class Game extends Phaser.Scene {
   재용;
@@ -82,6 +83,18 @@ export default class Game extends Phaser.Scene {
       })
       .setDepth(10)
       .setScrollFactor(0, 0);
+
+    this.budsGroup = this.physics.add.staticGroup({
+      classType: Buds,
+    });
+    this.physics.add.overlap(
+      this.재용,
+      this.budsGroup,
+      this.handCollectBuds,
+      undefined,
+      this,
+    );
+    this.budsGroup.get(100, 200, 'buds');
   }
 
   update(t, dt) {
@@ -107,11 +120,8 @@ export default class Game extends Phaser.Scene {
       }
     });
     // this.background.setTilePosition(0, this.cameras.main.scrollY);
-    const touchingDown = this.재용.body.touching.down;
-    if (touchingDown) {
-      this.재용.setVelocityY(-1225);
-    }
 
+    const touchingDown = this.재용.body.touching.down;
     if (this.cursors.left.isDown && !touchingDown) {
       this.재용.setVelocityX(-700);
       this.재용.setFlipX(true);
@@ -134,6 +144,10 @@ export default class Game extends Phaser.Scene {
   }
   onPlatformCollision(player, platform) {
     const isOnPlatform = player.body.touching.down;
+
+    if (isOnPlatform) {
+      this.재용.setVelocityY(-1225);
+    }
     if (platform.texture.key === 'laundry') {
       if (isOnPlatform) {
         console.log('밟음');
@@ -148,5 +162,13 @@ export default class Game extends Phaser.Scene {
         });
       }
     }
+  }
+  handCollectBuds(player, buds) {
+    buds.destroy();
+    player.body.setAllowGravity(false);
+    player.setVelocityY(-3000);
+    this.time.delayedCall(1500, function () {
+      player.body.setAllowGravity(true);
+    });
   }
 }
