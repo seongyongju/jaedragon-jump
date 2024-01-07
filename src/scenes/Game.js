@@ -65,7 +65,13 @@ export default class Game extends Phaser.Scene {
     this.재용.body.checkCollision.left = false;
     this.재용.body.checkCollision.right = false;
     this.재용.depth = 10;
-    this.physics.add.collider(this.platforms, this.재용);
+    this.physics.add.collider(
+      this.platforms,
+      this.재용,
+      this.onPlatformCollision,
+      null,
+      this,
+    );
     this.cameras.main.startFollow(this.재용);
     this.cameras.main.setDeadzone(this.scale.width * 1.5);
     this.scoreText = this.add
@@ -124,6 +130,23 @@ export default class Game extends Phaser.Scene {
       sprite.x = gameWidth + halfWidth;
     } else if (sprite.x > gameWidth + halfWidth) {
       sprite.x = -halfWidth;
+    }
+  }
+  onPlatformCollision(player, platform) {
+    const isOnPlatform = player.body.touching.down;
+    if (platform.texture.key === 'laundry') {
+      if (isOnPlatform) {
+        console.log('밟음');
+        const tween = this.tweens.add({
+          targets: this.cameras.main,
+          rotation: 2 * Math.PI,
+          duration: 500,
+          ease: 'Linear',
+          onComplete: () => {
+            this.cameras.main.rotation = 0;
+          },
+        });
+      }
     }
   }
 }
