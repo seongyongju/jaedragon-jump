@@ -74,26 +74,30 @@ export default class Game extends Phaser.Scene {
         fontSize: '32px',
         fill: '#000',
       })
+      .setDepth(10)
       .setScrollFactor(0, 0);
   }
 
   update(t, dt) {
     this.platforms.children.iterate((child) => {
-      let platform = child;
+      const platform = child;
 
       const scrollY = this.cameras.main.scrollY;
       if (platform.y >= scrollY + this.scale.height + 200) {
         platform.destroy();
         const new_x = Phaser.Math.Between(0, this.scale.width - 200);
         const new_y = this.platform_max_y - Phaser.Math.Between(300, 480);
-        platform = this.platforms
-          .create(new_x, new_y, Phaser.Math.RND.pick(this.platform_keys))
+        const new_platform_key = Phaser.Math.RND.pick(this.platform_keys);
+        const new_platform = this.platforms
+          .create(new_x, new_y, new_platform_key)
           .setOrigin(0);
-        platform.scale = 0.25;
+        new_platform.scale = 0.25;
 
-        const body = platform.body;
-        this.platform_max_y = platform.y;
+        const body = new_platform.body;
+        this.platform_max_y = new_platform.y;
         body.updateFromGameObject();
+        this.score += 1000;
+        this.scoreText.setText(`SAMSUNG: ${this.score}krw`);
       }
     });
     // this.background.setTilePosition(0, this.cameras.main.scrollY);
