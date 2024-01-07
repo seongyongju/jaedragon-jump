@@ -21,6 +21,7 @@ export default class Game extends Phaser.Scene {
   preload() {
     this.load.image('character', 'assets/character.png');
     this.load.image('background', 'assets/Clouds.png');
+    this.load.image('rocket', 'assets/rocket.png');
 
     this.load.image('buds', 'assets/buds.png');
     //platforms
@@ -78,7 +79,7 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.startFollow(this.재용);
     this.cameras.main.setDeadzone(this.scale.width * 1.5);
     this.scoreText = this.add
-      .text(16, 16, 'SAMSUNG: 0krw', {
+      .text(16, 16, 'SAMSUNG: 0 KRW', {
         fontFamily: 'Jua',
         fontSize: '32px',
         fill: '#000',
@@ -217,8 +218,13 @@ export default class Game extends Phaser.Scene {
   }
   handCollectBuds(player, buds) {
     buds.destroy();
+    player.setTexture('rocket');
     player.body.setAllowGravity(false);
     player.setVelocityY(-3500);
+
+    this.time.delayedCall(3000, () => {
+      player.setTexture('character');
+    });
     this.time.delayedCall(1000, () => {
       player.body.setAllowGravity(true);
     });
