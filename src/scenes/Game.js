@@ -117,6 +117,13 @@ export default class Game extends Phaser.Scene {
         body.updateFromGameObject();
         this.score += 1000;
         this.scoreText.setText(`SAMSUNG: ${this.score}krw`);
+        if (Math.random() < 0.1 && this.재용.body.velocity.y > -1225) {
+          this.budsGroup.get(
+            Phaser.Math.Between(0, this.scale.width - 200),
+            new_y - Phaser.Math.Between(600, 1000),
+            'buds',
+          );
+        }
       }
     });
     // this.background.setTilePosition(0, this.cameras.main.scrollY);
@@ -150,7 +157,6 @@ export default class Game extends Phaser.Scene {
     }
     if (platform.texture.key === 'laundry') {
       if (isOnPlatform) {
-        console.log('밟음');
         const tween = this.tweens.add({
           targets: this.cameras.main,
           rotation: 2 * Math.PI,
@@ -166,8 +172,8 @@ export default class Game extends Phaser.Scene {
   handCollectBuds(player, buds) {
     buds.destroy();
     player.body.setAllowGravity(false);
-    player.setVelocityY(-3000);
-    this.time.delayedCall(1500, function () {
+    player.setVelocityY(-3500);
+    this.time.delayedCall(1000, () => {
       player.body.setAllowGravity(true);
     });
   }
