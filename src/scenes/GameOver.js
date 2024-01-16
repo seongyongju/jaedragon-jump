@@ -26,7 +26,7 @@ export default class GameOver extends Phaser.Scene {
       .text(
         this.scale.width / 2,
         this.scale.height / 2 - 100,
-        `Delisted KRW: ${this.score}`,
+        `상장폐지 : ${this.score} KRW`,
         {
           fontFamily: 'Jua',
           fontSize: '50px',

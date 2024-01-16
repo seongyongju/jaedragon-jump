@@ -155,7 +155,7 @@ export default class Game extends Phaser.Scene {
         this.platform_max_y = new_platform.y;
         body.updateFromGameObject();
         this.score += 1000;
-        this.scoreText.setText(`SAMSUNG: ${this.score}krw`);
+        this.scoreText.setText(`SAMSUNG: ${this.score} KRW`);
         if (Math.random() < 0.1 && this.재용.body.velocity.y > -1225) {
           this.budsGroup.get(
             Phaser.Math.Between(0, this.scale.width - 200),
