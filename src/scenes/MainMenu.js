@@ -39,10 +39,9 @@ export default class MainMenu extends Phaser.Scene {
     if (typeof DeviceOrientationEvent.requestPermission === 'function') {
       DeviceOrientationEvent.requestPermission()
         .then((permissionState) => {
-          if (permissionState === 'granted') {
-            this.startButton.style.display = 'none';
-            this.scene.start('Game', { deviceOrientationGranted: true });
-          }
+          const deviceOrientationGranted = permissionState === 'granted';
+          this.scene.start('Game', { deviceOrientationGranted });
+          this.startButton.style.display = 'none';
         })
         .catch(console.error);
     } else {
