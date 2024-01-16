@@ -29,7 +29,7 @@ export default class MainMenu extends Phaser.Scene {
         fill: '#000',
       })
       .setOrigin(0.5);
-
+    this.startButton.style.display = 'block';
     this.startButton.addEventListener(
       'click',
       this.requestDeviceOrientationPermission.bind(this),
