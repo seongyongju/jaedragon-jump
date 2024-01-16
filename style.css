@@ -2,3 +2,19 @@ body {
   margin: 0;
   padding: 0;
 }
+
+#game-container {
+  position: relative;
+}
+
+#start-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#phaser-game {
+  width: 100%;
+  height: 100%;
+}

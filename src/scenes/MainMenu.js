@@ -4,6 +4,7 @@ import WebFontFile from '../files/WebFontFile';
 export default class MainMenu extends Phaser.Scene {
   constructor() {
     super('MainMenu');
+    this.startButton = document.getElementById('start-button');
   }
 
   preload() {
@@ -29,25 +30,25 @@ export default class MainMenu extends Phaser.Scene {
       })
       .setOrigin(0.5);
 
-    const restartButton = this.add
-      .text(this.scale.width / 2, this.scale.height / 2 + 10, 'START', {
-        fontFamily: 'Jua',
-        fontSize: '32px',
-        fill: '#000',
-      })
-      .setOrigin(0.5);
-
-    restartButton.setInteractive({ useHandCursor: true });
-    restartButton.on('pointerover', () => {
-      restartButton.setColor('#ff0000');
-    });
-    restartButton.on('pointerout', () => {
-      restartButton.setColor('#000000');
-    });
-
-    // 텍스트 클릭 시 메인 게임 씬 재시작
-    restartButton.on('pointerdown', () => {
-      this.scene.start('Game');
-    });
+    this.startButton.addEventListener(
+      'click',
+      this.requestDeviceOrientationPermission.bind(this),
+    );
+  }
+  requestDeviceOrientationPermission() {
+    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+      DeviceOrientationEvent.requestPermission()
+        .then((permissionState) => {
+          if (permissionState === 'granted') {
+            this.startButton.style.display = 'none';
+            this.scene.start('Game', { deviceOrientationGranted: true });
+          }
+        })
+        .catch(console.error);
+    } else {
+      // 브라우저가 권한 요청을 지원하지 않으면 바로 게임 씬으로 이동
+      this.startButton.style.display = 'none';
+      this.scene.start('Game', { deviceOrientationGranted: true });
+    }
   }
 }

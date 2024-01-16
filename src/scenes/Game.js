@@ -17,7 +17,6 @@ export default class Game extends Phaser.Scene {
       key: 'Game',
     });
   }
-
   preload() {
     const elem = document.getElementById('asset-base-url');
     if (elem) {
@@ -40,7 +39,7 @@ export default class Game extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys();
   }
 
-  create() {
+  create(data) {
     this.score = 0;
     const width = this.scale.width;
     const height = this.scale.height;
@@ -112,6 +111,12 @@ export default class Game extends Phaser.Scene {
       undefined,
       this,
     );
+
+    //클릭(터치) 이벤트 처리
+    window.addEventListener(
+      'deviceorientation',
+      this.handleOrientation.bind(this),
+    );
     this.halfWidth = this.sys.game.config.width / 2;
     this.input.on('pointerdown', (_pointer) => {
       this.pointer = _pointer;
@@ -167,7 +172,11 @@ export default class Game extends Phaser.Scene {
         }
       }
     });
-    // this.background.setTilePosition(0, this.cameras.main.scrollY);
+    this.background.setTilePosition(0, this.cameras.main.scrollY);
+
+    if (Math.abs(this.재용.body.velocity.x) > 20) {
+      this.재용.setFlipX(this.재용.body.velocity.x < 0);
+    }
 
     const touchingDown = this.재용.body.touching.down;
     if (this.cursors.left.isDown && !touchingDown) {
@@ -237,5 +246,11 @@ export default class Game extends Phaser.Scene {
   handCollectNote7(player, note7) {
     note7.destroy();
     this.scene.start('GameOver', { score: this.score });
+  }
+  handleOrientation(e) {
+    const x = e.gamma; // x 축 기울기
+    if (this.재용) {
+      this.재용.setVelocityX(x * 70);
+    }
   }
 }
